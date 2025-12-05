@@ -83,10 +83,29 @@ exports.handler = async (event) => {
     if (category && category !== 'all') {
       const searchQueries = {
         'funeral-director': ['funeral director', 'funeral home', 'funeral services'],
-        'florist': ['funeral flowers', 'florist sympathy'],
-        'stonemason': ['memorial stonemason', 'headstone', 'monumental mason'],
-        'venue': ['function room hire', 'wake venue', 'memorial venue'],
-        'caterer': ['funeral catering', 'wake catering', 'buffet catering']
+        'crematorium': ['crematorium', 'cremation services'],
+        'cemetery': ['cemetery', 'burial ground', 'graveyard'],
+        'natural-burial': ['natural burial', 'woodland burial', 'green burial', 'eco burial'],
+        'florist': ['funeral flowers', 'florist sympathy', 'funeral florist'],
+        'stonemason': ['memorial stonemason', 'headstone', 'monumental mason', 'gravestone'],
+        'venue': ['function room hire', 'wake venue', 'memorial venue', 'reception venue'],
+        'caterer': ['funeral catering', 'wake catering', 'buffet catering'],
+        'solicitor': ['probate solicitor', 'wills and probate solicitor', 'estate solicitor'],
+        'will-writer': ['will writer', 'will writing service'],
+        'accountant': ['probate accountant', 'inheritance tax accountant', 'estate accountant'],
+        'celebrant': ['funeral celebrant', 'civil celebrant', 'humanist celebrant'],
+        'musician': ['funeral musician', 'funeral singer', 'funeral organist', 'harpist'],
+        'photographer': ['funeral photographer', 'memorial photographer'],
+        'videographer': ['funeral videographer', 'memorial video service'],
+        'transport': ['funeral transport', 'hearse hire', 'funeral car hire', 'horse drawn hearse'],
+        'house-clearance': ['house clearance', 'bereavement clearance', 'probate clearance'],
+        'counsellor': ['grief counsellor', 'bereavement counsellor', 'bereavement support'],
+        'printer': ['order of service printing', 'funeral printing', 'memorial printing'],
+        'memorial-jewellery': ['memorial jewellery', 'ashes jewellery', 'cremation jewellery'],
+        'locksmith': ['locksmith', 'emergency locksmith', 'lock change'],
+        'cleaning': ['house cleaning', 'deep cleaning service', 'end of tenancy cleaning', 'probate cleaning'],
+        'pet-services': ['pet cremation', 'pet funeral', 'kennels', 'cattery', 'pet rehoming', 'dog boarding'],
+        'repatriation': ['repatriation services', 'international funeral', 'body repatriation']
       };
 
       const queries = searchQueries[category] || [category];
@@ -95,11 +114,14 @@ exports.handler = async (event) => {
         allResults = allResults.concat(results);
       }
     } else {
-      // Search for all funeral-related services
+      // Search for main funeral-related services
       const searches = [
         textSearch('funeral director', coords.lat, coords.lng),
+        textSearch('crematorium', coords.lat, coords.lng),
         textSearch('florist', coords.lat, coords.lng),
-        textSearch('memorial stonemason', coords.lat, coords.lng)
+        textSearch('stonemason memorial', coords.lat, coords.lng),
+        textSearch('probate solicitor', coords.lat, coords.lng),
+        textSearch('funeral celebrant', coords.lat, coords.lng)
       ];
       
       const results = await Promise.all(searches);
@@ -124,18 +146,32 @@ exports.handler = async (event) => {
       // Get full details including phone and website
       const details = await getPlaceDetails(place.place_id);
       
-      // Determine category based on types
-      let type = 'funeral-director';
-      if (place.types) {
-        if (place.types.includes('florist')) type = 'florist';
-        else if (place.types.includes('cemetery')) type = 'stonemason';
-        else if (place.types.includes('event_venue') || place.types.includes('banquet_hall')) type = 'venue';
-        else if (place.types.includes('caterer') || place.types.includes('meal_delivery')) type = 'caterer';
-      }
-      // Also check name for clues
+      // Determine category based on name
       const nameLower = place.name.toLowerCase();
-      if (nameLower.includes('florist') || nameLower.includes('flower')) type = 'florist';
-      else if (nameLower.includes('stone') || nameLower.includes('memorial') || nameLower.includes('mason')) type = 'stonemason';
+      let type = 'funeral-director'; // default
+      
+      // Check name for category clues
+      if (nameLower.includes('crematori')) type = 'crematorium';
+      else if (nameLower.includes('cemetery') || nameLower.includes('burial ground') || nameLower.includes('graveyard')) type = 'cemetery';
+      else if (nameLower.includes('woodland burial') || nameLower.includes('natural burial') || nameLower.includes('green burial')) type = 'natural-burial';
+      else if (nameLower.includes('florist') || nameLower.includes('flower')) type = 'florist';
+      else if (nameLower.includes('stone') || nameLower.includes('mason') || nameLower.includes('headstone') || nameLower.includes('gravestone')) type = 'stonemason';
+      else if (nameLower.includes('solicitor') || nameLower.includes('law') || nameLower.includes('probate')) type = 'solicitor';
+      else if (nameLower.includes('will writ')) type = 'will-writer';
+      else if (nameLower.includes('accountant') || nameLower.includes('tax')) type = 'accountant';
+      else if (nameLower.includes('celebrant') || nameLower.includes('humanist') || nameLower.includes('officiant')) type = 'celebrant';
+      else if (nameLower.includes('music') || nameLower.includes('harp') || nameLower.includes('organist') || nameLower.includes('singer')) type = 'musician';
+      else if (nameLower.includes('photo')) type = 'photographer';
+      else if (nameLower.includes('video') || nameLower.includes('film')) type = 'videographer';
+      else if (nameLower.includes('hearse') || nameLower.includes('limousine') || nameLower.includes('horse drawn') || nameLower.includes('transport')) type = 'transport';
+      else if (nameLower.includes('clearance')) type = 'house-clearance';
+      else if (nameLower.includes('counsell') || nameLower.includes('therapy') || nameLower.includes('grief') || nameLower.includes('bereavement support')) type = 'counsellor';
+      else if (nameLower.includes('print')) type = 'printer';
+      else if (nameLower.includes('jewel') || nameLower.includes('ashes into')) type = 'memorial-jewellery';
+      else if (nameLower.includes('locksmith') || nameLower.includes('lock')) type = 'locksmith';
+      else if (nameLower.includes('clean')) type = 'cleaning';
+      else if (nameLower.includes('kennel') || nameLower.includes('cattery') || nameLower.includes('pet cremation') || nameLower.includes('pet funeral') || nameLower.includes('dog boarding')) type = 'pet-services';
+      else if (nameLower.includes('repatriation') || nameLower.includes('international funeral')) type = 'repatriation';
       else if (nameLower.includes('cater')) type = 'caterer';
       else if (nameLower.includes('hall') || nameLower.includes('venue') || nameLower.includes('room')) type = 'venue';
 
