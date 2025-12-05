@@ -890,7 +890,156 @@ function AboutPage({ setCurrentPage }) {
 // ============================================================
 
 function ConciergePage({ setCurrentPage }) {
-  return (<div className="page-container"><div className="page-content" style={{ maxWidth: '900px' }}><button className="back-btn" onClick={() => setCurrentPage('home')}><ArrowLeft size={18} /> Back to Home</button><h1 className="page-title">Concierge Service</h1><p className="page-subtitle">Let us handle the difficult calls and paperwork on your behalf.</p><div style={{ display: 'grid', gap: '24px', marginTop: '32px' }}><div className="card"><div style={{ display: 'flex', alignItems: 'flex-start', gap: '20px' }}><div className="feature-icon" style={{ flexShrink: 0 }}><Phone size={24} /></div><div><h3 className="card-title">Phone Calls On Your Behalf</h3><p className="card-description">We'll contact utility companies, banks, subscription services, and government departments to notify them and close or transfer accounts.</p></div></div></div><div className="card"><div style={{ display: 'flex', alignItems: 'flex-start', gap: '20px' }}><div className="feature-icon" style={{ flexShrink: 0 }}><FileText size={24} /></div><div><h3 className="card-title">Paperwork Assistance</h3><p className="card-description">We'll help you complete essential forms including Tell Us Once registration, probate applications, and insurance claims.</p></div></div></div><div className="card"><div style={{ display: 'flex', alignItems: 'flex-start', gap: '20px' }}><div className="feature-icon" style={{ flexShrink: 0 }}><Shield size={24} /></div><div><h3 className="card-title">Expert Guidance</h3><p className="card-description">Our experienced team understands the UK bereavement process. We'll ensure nothing is missed and deadlines are met.</p></div></div></div></div><div className="card" style={{ marginTop: '40px', textAlign: 'center', padding: '40px' }}><h2 style={{ fontSize: '24px', marginBottom: '16px' }}>Request a Callback</h2><p style={{ color: 'rgba(255,255,255,0.7)', marginBottom: '24px' }}>Our team is available Monday to Friday, 9am - 5pm.</p><form style={{ display: 'flex', flexDirection: 'column', gap: '16px', maxWidth: '400px', margin: '0 auto' }}><input type="text" placeholder="Your name" className="chat-input" style={{ width: '100%' }} /><input type="tel" placeholder="Phone number" className="chat-input" style={{ width: '100%' }} /><input type="email" placeholder="Email address" className="chat-input" style={{ width: '100%' }} /><select className="chat-input" style={{ width: '100%' }}><option value="">What do you need help with?</option><option value="calls">Phone calls on my behalf</option><option value="paperwork">Paperwork assistance</option><option value="both">Both</option></select><button type="submit" className="btn-primary">Request Callback</button></form></div></div></div>)
+  return (
+    <div className="page-container">
+      <div className="page-content" style={{ maxWidth: '900px' }}>
+        <button className="back-btn" onClick={() => setCurrentPage('home')}><ArrowLeft size={18} /> Back to Home</button>
+        
+        <h1 className="page-title">Concierge Service</h1>
+        <p className="page-subtitle">Expert support when you need it most. Let us handle everything while you focus on what matters.</p>
+
+        {/* Savings Banner */}
+        <div style={{ background: 'linear-gradient(135deg, rgba(16,185,129,0.2), rgba(135,206,235,0.2))', border: '2px solid rgba(16,185,129,0.4)', borderRadius: '16px', padding: '24px', marginTop: '32px', marginBottom: '32px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '16px', flexWrap: 'wrap', justifyContent: 'center' }}>
+            <div style={{ textAlign: 'center', padding: '0 24px' }}>
+              <p style={{ fontSize: '36px', fontWeight: 700, color: '#10b981' }}>£1,800+</p>
+              <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '14px' }}>Average client savings</p>
+            </div>
+            <div style={{ width: '1px', height: '50px', background: 'rgba(255,255,255,0.2)', display: 'none' }} className="divider"></div>
+            <div style={{ textAlign: 'center', padding: '0 24px' }}>
+              <p style={{ fontSize: '36px', fontWeight: 700, color: 'var(--color-primary)' }}>40+</p>
+              <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '14px' }}>Hours of your time saved</p>
+            </div>
+            <div style={{ width: '1px', height: '50px', background: 'rgba(255,255,255,0.2)', display: 'none' }} className="divider"></div>
+            <div style={{ textAlign: 'center', padding: '0 24px' }}>
+              <p style={{ fontSize: '36px', fontWeight: 700, color: 'var(--color-primary)' }}>100%</p>
+              <p style={{ color: 'rgba(255,255,255,0.7)', fontSize: '14px' }}>Tasks handled for you</p>
+            </div>
+          </div>
+        </div>
+
+        {/* Value Proposition */}
+        <div className="card" style={{ marginBottom: '24px', background: 'rgba(135,206,235,0.1)', borderColor: 'rgba(135,206,235,0.3)' }}>
+          <h2 style={{ fontSize: '22px', fontWeight: 600, marginBottom: '16px' }}>Why Our Clients Save Money</h2>
+          <p style={{ lineHeight: 1.8, color: 'rgba(255,255,255,0.85)', marginBottom: '16px' }}>
+            Most families overpay by thousands during bereavement simply because they don't know what's fair, what's negotiable, or where to find better options. Our buying power and industry relationships mean we can secure rates you won't find elsewhere.
+          </p>
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '12px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><span style={{ color: '#10b981' }}>✓</span> Preferred rates with funeral directors</div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><span style={{ color: '#10b981' }}>✓</span> Negotiated probate solicitor fees</div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><span style={{ color: '#10b981' }}>✓</span> Discounted headstones & memorials</div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><span style={{ color: '#10b981' }}>✓</span> Free will review with partners</div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><span style={{ color: '#10b981' }}>✓</span> Best price guarantee on flowers</div>
+            <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><span style={{ color: '#10b981' }}>✓</span> Reduced wake venue hire</div>
+          </div>
+        </div>
+
+        {/* Services */}
+        <h2 style={{ fontSize: '24px', fontWeight: 600, marginBottom: '20px' }}>What We Do For You</h2>
+        <div style={{ display: 'grid', gap: '20px', marginBottom: '32px' }}>
+          <div className="card">
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '20px' }}>
+              <div className="feature-icon" style={{ flexShrink: 0 }}><Phone size={24} /></div>
+              <div>
+                <h3 className="card-title">We Make The Difficult Calls</h3>
+                <p className="card-description">Banks, utilities, HMRC, pension providers, subscription services, councils — we handle every single notification call. No more waiting on hold or explaining your situation over and over again.</p>
+              </div>
+            </div>
+          </div>
+          
+          <div className="card">
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '20px' }}>
+              <div className="feature-icon" style={{ flexShrink: 0 }}><FileText size={24} /></div>
+              <div>
+                <h3 className="card-title">We Complete The Paperwork</h3>
+                <p className="card-description">Tell Us Once, probate applications, insurance claims, pension forms, bank account closures — we prepare everything correctly the first time, avoiding costly delays and rejected applications.</p>
+              </div>
+            </div>
+          </div>
+          
+          <div className="card">
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '20px' }}>
+              <div className="feature-icon" style={{ flexShrink: 0 }}><Users size={24} /></div>
+              <div>
+                <h3 className="card-title">We Coordinate Your Suppliers</h3>
+                <p className="card-description">Funeral directors, florists, caterers, celebrants, stonemasons — we source quotes, negotiate prices, check availability, and coordinate everything so you don't have to.</p>
+              </div>
+            </div>
+          </div>
+          
+          <div className="card">
+            <div style={{ display: 'flex', alignItems: 'flex-start', gap: '20px' }}>
+              <div className="feature-icon" style={{ flexShrink: 0 }}><Shield size={24} /></div>
+              <div>
+                <h3 className="card-title">We Protect Your Interests</h3>
+                <p className="card-description">We'll review quotes to ensure fair pricing, check contracts for hidden fees, and make sure you're not being taken advantage of during a vulnerable time.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* Pricing */}
+        <h2 style={{ fontSize: '24px', fontWeight: 600, marginBottom: '20px' }}>Simple, Transparent Pricing</h2>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(2, 1fr)', gap: '20px', marginBottom: '32px' }}>
+          <div className="card" style={{ textAlign: 'center', padding: '32px' }}>
+            <p style={{ color: 'var(--color-primary)', fontWeight: 600, marginBottom: '8px' }}>ESSENTIAL</p>
+            <p style={{ fontSize: '48px', fontWeight: 700 }}>£299</p>
+            <p style={{ color: 'rgba(255,255,255,0.6)', marginBottom: '24px' }}>One-time fee</p>
+            <ul style={{ textAlign: 'left', lineHeight: 2.2, color: 'rgba(255,255,255,0.85)' }}>
+              <li>✓ Up to 15 notification calls</li>
+              <li>✓ Tell Us Once registration</li>
+              <li>✓ Checklist & deadline tracking</li>
+              <li>✓ Email support</li>
+              <li>✓ Supplier recommendations</li>
+            </ul>
+          </div>
+          
+          <div className="card" style={{ textAlign: 'center', padding: '32px', border: '2px solid var(--color-primary)' }}>
+            <p style={{ color: 'var(--color-primary)', fontWeight: 600, marginBottom: '8px' }}>COMPLETE</p>
+            <p style={{ fontSize: '48px', fontWeight: 700 }}>£599</p>
+            <p style={{ color: 'rgba(255,255,255,0.6)', marginBottom: '24px' }}>One-time fee</p>
+            <ul style={{ textAlign: 'left', lineHeight: 2.2, color: 'rgba(255,255,255,0.85)' }}>
+              <li>✓ <strong>Unlimited</strong> notification calls</li>
+              <li>✓ Full paperwork completion</li>
+              <li>✓ Probate application support</li>
+              <li>✓ Supplier coordination & negotiation</li>
+              <li>✓ Dedicated account manager</li>
+              <li>✓ Priority phone support</li>
+              <li>✓ Price match guarantee</li>
+            </ul>
+            <p style={{ marginTop: '16px', padding: '8px', background: 'rgba(16,185,129,0.2)', borderRadius: '8px', fontSize: '14px', color: '#10b981' }}>Most popular — typical savings exceed £1,800</p>
+          </div>
+        </div>
+
+        {/* Guarantee */}
+        <div className="card" style={{ textAlign: 'center', marginBottom: '32px', background: 'rgba(16,185,129,0.1)', borderColor: 'rgba(16,185,129,0.3)' }}>
+          <Shield size={32} style={{ color: '#10b981', marginBottom: '12px' }} />
+          <h3 style={{ fontSize: '20px', fontWeight: 600, marginBottom: '8px' }}>Our Promise</h3>
+          <p style={{ color: 'rgba(255,255,255,0.85)' }}>If we don't save you more than the cost of our Complete service through our recommendations and negotiations, we'll refund the difference. No questions asked.</p>
+        </div>
+
+        {/* Request Callback */}
+        <div className="card" style={{ textAlign: 'center', padding: '40px' }}>
+          <h2 style={{ fontSize: '24px', marginBottom: '8px' }}>Request Your Free Consultation</h2>
+          <p style={{ color: 'rgba(255,255,255,0.7)', marginBottom: '24px' }}>No obligation. We'll explain exactly how we can help and what you could save.</p>
+          <form style={{ display: 'flex', flexDirection: 'column', gap: '16px', maxWidth: '400px', margin: '0 auto' }}>
+            <input type="text" placeholder="Your name" className="chat-input" style={{ width: '100%' }} />
+            <input type="tel" placeholder="Phone number" className="chat-input" style={{ width: '100%' }} />
+            <input type="email" placeholder="Email address" className="chat-input" style={{ width: '100%' }} />
+            <select className="chat-input" style={{ width: '100%' }}>
+              <option value="">When did the death occur?</option>
+              <option value="today">Today / Yesterday</option>
+              <option value="week">Within the last week</option>
+              <option value="month">Within the last month</option>
+              <option value="planning">Planning ahead</option>
+            </select>
+            <button type="submit" className="btn-primary" style={{ padding: '16px' }}>Request Free Consultation</button>
+          </form>
+          <p style={{ marginTop: '16px', fontSize: '14px', color: 'rgba(255,255,255,0.5)' }}>Available Monday - Friday, 9am - 6pm • Saturday 10am - 2pm</p>
+        </div>
+      </div>
+    </div>
+  )
 }
 
 // ============================================================
