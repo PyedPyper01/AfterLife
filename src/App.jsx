@@ -567,7 +567,9 @@ function MemorialPage({ setCurrentPage }) {
   const [newMemorial, setNewMemorial] = useState({ name: '', dateOfBirth: '', dateOfDeath: '', biography: '', photos: [] })
   const [condolenceMessage, setCondolenceMessage] = useState('')
   const [condolenceAuthor, setCondolenceAuthor] = useState('')
+  const [condolencePhoto, setCondolencePhoto] = useState(null)
   const fileInputRef = useRef(null)
+  const condolenceFileRef = useRef(null)
 
   useEffect(() => {
     const saved = localStorage.getItem('afterlife-memorials')
@@ -602,11 +604,20 @@ function MemorialPage({ setCurrentPage }) {
 
   const handleAddCondolence = () => {
     if (!selectedMemorial || !condolenceMessage || !condolenceAuthor) { alert('Please fill in your name and message'); return }
-    const updated = memorials.map(m => m.id === selectedMemorial.id ? { ...m, condolences: [...m.condolences, { author: condolenceAuthor, message: condolenceMessage, timestamp: new Date() }] } : m)
+    const updated = memorials.map(m => m.id === selectedMemorial.id ? { ...m, condolences: [...m.condolences, { author: condolenceAuthor, message: condolenceMessage, photo: condolencePhoto, timestamp: new Date() }] } : m)
     saveMemorials(updated)
     setSelectedMemorial(updated.find(m => m.id === selectedMemorial.id))
     setCondolenceMessage('')
     setCondolenceAuthor('')
+    setCondolencePhoto(null)
+  }
+
+  const handleCondolencePhotoUpload = (e) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    const reader = new FileReader()
+    reader.onload = (event) => { if (event.target?.result) setCondolencePhoto(event.target.result) }
+    reader.readAsDataURL(file)
   }
 
   const handleShare = (memorial) => {
@@ -696,6 +707,11 @@ function MemorialPage({ setCurrentPage }) {
                   {selectedMemorial.condolences.map((c, i) => (
                     <div key={i} style={{ background: 'rgba(255,255,255,0.05)', padding: '16px', borderRadius: '12px', marginBottom: '12px' }}>
                       <p style={{ marginBottom: '8px', lineHeight: 1.6 }}>{c.message}</p>
+                      {c.photo && (
+                        <div style={{ marginBottom: '12px' }}>
+                          <img src={c.photo} alt="Shared memory" style={{ maxWidth: '100%', maxHeight: '300px', borderRadius: '8px', objectFit: 'cover' }} />
+                        </div>
+                      )}
                       <div style={{ display: 'flex', justifyContent: 'space-between', fontSize: '14px' }}>
                         <span style={{ fontWeight: 600 }}>— {c.author}</span>
                         <span style={{ color: 'rgba(255,255,255,0.5)' }}>{new Date(c.timestamp).toLocaleDateString()}</span>
@@ -708,6 +724,21 @@ function MemorialPage({ setCurrentPage }) {
                 <h4 style={{ marginBottom: '12px', fontWeight: 600 }}>Leave a Condolence</h4>
                 <input type="text" className="chat-input" style={{ width: '100%', marginBottom: '12px' }} placeholder="Your name" value={condolenceAuthor} onChange={(e) => setCondolenceAuthor(e.target.value)} />
                 <textarea className="chat-input" style={{ width: '100%', minHeight: '100px', marginBottom: '12px', resize: 'vertical' }} placeholder="Share your memories and condolences..." value={condolenceMessage} onChange={(e) => setCondolenceMessage(e.target.value)} />
+                <div style={{ marginBottom: '12px' }}>
+                  <input type="file" ref={condolenceFileRef} style={{ display: 'none' }} accept="image/*" onChange={handleCondolencePhotoUpload} />
+                  <button className="btn-secondary" onClick={() => condolenceFileRef.current?.click()} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
+                    <Upload size={16} /> Add Photo (optional)
+                  </button>
+                  {condolencePhoto && (
+                    <div style={{ marginTop: '12px', position: 'relative', display: 'inline-block' }}>
+                      <img src={condolencePhoto} alt="Preview" style={{ maxWidth: '150px', maxHeight: '150px', borderRadius: '8px', objectFit: 'cover' }} />
+                      <button 
+                        onClick={() => setCondolencePhoto(null)} 
+                        style={{ position: 'absolute', top: '-8px', right: '-8px', background: '#ef4444', color: 'white', border: 'none', borderRadius: '50%', width: '24px', height: '24px', cursor: 'pointer', fontSize: '14px' }}
+                      >×</button>
+                    </div>
+                  )}
+                </div>
                 <button className="btn-primary" onClick={handleAddCondolence}>Post Condolence</button>
               </div>
             </div>
