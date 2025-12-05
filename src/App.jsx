@@ -612,6 +612,20 @@ function MemorialPage({ setCurrentPage }) {
     setCondolencePhoto(null)
   }
 
+  const handleDeleteCondolence = (index) => {
+    if (!confirm('Are you sure you want to delete this condolence?')) return
+    const updated = memorials.map(m => m.id === selectedMemorial.id ? { ...m, condolences: m.condolences.filter((_, i) => i !== index) } : m)
+    saveMemorials(updated)
+    setSelectedMemorial(updated.find(m => m.id === selectedMemorial.id))
+  }
+
+  const handleDeleteMemorial = () => {
+    if (!confirm('Are you sure you want to delete this entire memorial? This cannot be undone.')) return
+    const updated = memorials.filter(m => m.id !== selectedMemorial.id)
+    saveMemorials(updated)
+    setSelectedMemorial(null)
+  }
+
   const handleCondolencePhotoUpload = (e) => {
     const file = e.target.files?.[0]
     if (!file) return
@@ -687,7 +701,10 @@ function MemorialPage({ setCurrentPage }) {
                 <h1 style={{ fontSize: '32px', fontWeight: 600, marginBottom: '8px' }}>{selectedMemorial.name}</h1>
                 <p style={{ color: 'rgba(255,255,255,0.6)', display: 'flex', alignItems: 'center', gap: '8px' }}><Calendar size={16} /> {new Date(selectedMemorial.dateOfBirth).toLocaleDateString()} - {new Date(selectedMemorial.dateOfDeath).toLocaleDateString()}</p>
               </div>
-              <button className="btn-secondary" onClick={() => handleShare(selectedMemorial)} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><Share2 size={16} /> Share</button>
+              <div style={{ display: 'flex', gap: '8px' }}>
+                <button className="btn-secondary" onClick={() => handleShare(selectedMemorial)} style={{ display: 'flex', alignItems: 'center', gap: '8px' }}><Share2 size={16} /> Share</button>
+                <button onClick={handleDeleteMemorial} style={{ background: 'rgba(239,68,68,0.2)', color: '#ef4444', border: 'none', borderRadius: '8px', padding: '10px 16px', cursor: 'pointer', fontSize: '14px' }}>Delete</button>
+              </div>
             </div>
             {selectedMemorial.photos.length > 0 && (
               <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '12px', marginBottom: '24px' }}>
@@ -705,7 +722,11 @@ function MemorialPage({ setCurrentPage }) {
               {selectedMemorial.condolences.length > 0 && (
                 <div style={{ marginBottom: '24px' }}>
                   {selectedMemorial.condolences.map((c, i) => (
-                    <div key={i} style={{ background: 'rgba(255,255,255,0.05)', padding: '16px', borderRadius: '12px', marginBottom: '12px' }}>
+                    <div key={i} style={{ background: 'rgba(255,255,255,0.05)', padding: '16px', borderRadius: '12px', marginBottom: '12px', position: 'relative' }}>
+                      <button 
+                        onClick={() => handleDeleteCondolence(i)} 
+                        style={{ position: 'absolute', top: '8px', right: '8px', background: 'rgba(239,68,68,0.2)', color: '#ef4444', border: 'none', borderRadius: '4px', padding: '4px 8px', cursor: 'pointer', fontSize: '12px' }}
+                      >Delete</button>
                       <p style={{ marginBottom: '8px', lineHeight: 1.6 }}>{c.message}</p>
                       {c.photo && (
                         <div style={{ marginBottom: '12px' }}>
