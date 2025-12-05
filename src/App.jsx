@@ -494,23 +494,35 @@ function MarketplacePage({ setCurrentPage, postcode, setPostcode }) {
               )}
             </div>
 
+            {selectedSupplier.phone && (
+              <a 
+                href={`tel:${selectedSupplier.phone}`}
+                className="btn-primary" 
+                style={{ width: '100%', display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '8px', textDecoration: 'none', marginBottom: '12px' }}
+              >
+                <Phone size={18} /> {selectedSupplier.phone}
+              </a>
+            )}
+            
+            {selectedSupplier.website && (
+              <a 
+                href={selectedSupplier.website}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn-secondary" 
+                style={{ width: '100%', display: 'block', textAlign: 'center', textDecoration: 'none', marginBottom: '12px' }}
+              >
+                Visit Website
+              </a>
+            )}
+
             <a 
               href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(selectedSupplier.name + ' ' + selectedSupplier.location)}`}
               target="_blank"
               rel="noopener noreferrer"
-              className="btn-primary" 
-              style={{ width: '100%', display: 'block', textAlign: 'center', textDecoration: 'none', marginBottom: '12px' }}
+              style={{ width: '100%', display: 'block', textAlign: 'center', textDecoration: 'none', color: 'var(--color-primary)', fontSize: '14px' }}
             >
               View on Google Maps
-            </a>
-            <a 
-              href={`https://www.google.com/search?q=${encodeURIComponent(selectedSupplier.name + ' ' + selectedSupplier.location)}`}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-secondary" 
-              style={{ width: '100%', display: 'block', textAlign: 'center', textDecoration: 'none' }}
-            >
-              Search for Contact Details
             </a>
           </div>
         </div>
