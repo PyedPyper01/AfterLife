@@ -116,8 +116,14 @@ exports.handler = async (event) => {
       }
     }
 
-    // Format results
-    const suppliers = uniquePlaces.slice(0, 20).map(place => {
+    // Get details for top 10 results (to limit API costs)
+    const topPlaces = uniquePlaces.slice(0, 10);
+    
+    // Fetch full details for each place
+    const suppliersWithDetails = await Promise.all(topPlaces.map(async (place) => {
+      // Get full details including phone and website
+      const details = await getPlaceDetails(place.place_id);
+      
       // Determine category based on types
       let type = 'funeral-director';
       if (place.types) {
@@ -137,20 +143,21 @@ exports.handler = async (event) => {
         id: place.place_id,
         name: place.name,
         type: type,
-        location: place.vicinity || place.formatted_address || '',
+        location: details?.formatted_address || place.vicinity || '',
+        phone: details?.formatted_phone_number || null,
+        website: details?.website || null,
         rating: place.rating || null,
         reviewCount: place.user_ratings_total || 0,
         isOpen: place.opening_hours?.open_now,
-        placeId: place.place_id,
-        verified: false // Real businesses from Google
+        placeId: place.place_id
       };
-    });
+    }));
 
     return {
       statusCode: 200,
       headers,
       body: JSON.stringify({ 
-        suppliers,
+        suppliers: suppliersWithDetails,
         location: coords,
         searchedPostcode: postcode
       })
