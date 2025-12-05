@@ -86,7 +86,32 @@ const getPostcodeArea = (postcode) => {
   return match ? match[1] : ''
 }
 
-const supplierTypeLabels = { 'funeral-director': 'Funeral Directors', 'florist': 'Florists', 'stonemason': 'Stonemasons', 'venue': 'Venues', 'caterer': 'Caterers' }
+const supplierTypeLabels = { 
+  'funeral-director': 'Funeral Directors', 
+  'crematorium': 'Crematoriums',
+  'cemetery': 'Cemeteries',
+  'natural-burial': 'Natural Burial Sites',
+  'florist': 'Florists', 
+  'stonemason': 'Stonemasons', 
+  'venue': 'Venues', 
+  'caterer': 'Caterers',
+  'solicitor': 'Probate Solicitors',
+  'will-writer': 'Will Writers',
+  'accountant': 'Accountants',
+  'celebrant': 'Celebrants',
+  'musician': 'Musicians',
+  'photographer': 'Photographers',
+  'videographer': 'Videographers',
+  'transport': 'Specialist Transport',
+  'house-clearance': 'House Clearance',
+  'counsellor': 'Grief Counsellors',
+  'printer': 'Order of Service Printing',
+  'memorial-jewellery': 'Memorial Jewellery',
+  'locksmith': 'Locksmiths',
+  'cleaning': 'Cleaning Services',
+  'pet-services': 'Pet Services',
+  'repatriation': 'Repatriation Services'
+}
 
 // ============================================================
 // NAVIGATION
