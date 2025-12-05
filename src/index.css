@@ -374,6 +374,31 @@ body {
   border-color: var(--color-primary);
 }
 
+/* Triage option buttons */
+.option-btn {
+  width: 100%;
+  text-align: left;
+  padding: 18px 24px;
+  font-size: 16px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(135, 206, 235, 0.3);
+  border-radius: 12px;
+  color: #ffffff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.option-btn:hover {
+  background: rgba(135, 206, 235, 0.15);
+  border-color: var(--color-primary);
+  transform: translateX(4px);
+}
+
+.card.urgent {
+  border-color: rgba(251, 191, 36, 0.5);
+  background: rgba(251, 191, 36, 0.05);
+}
+
 /* Marketplace */
 .marketplace-filters {
   display: flex;
